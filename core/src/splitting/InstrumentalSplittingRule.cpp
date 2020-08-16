@@ -17,6 +17,13 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cmath>
+#include <random>
+#include <iostream>
+#include <list>
+#include <numeric>
+#include <vector>
+#include <ctime>
 
 #include "InstrumentalSplittingRule.h"
 
@@ -220,6 +227,18 @@ void InstrumentalSplittingRule::find_best_split_value(const Data& data,
       sum_left_z_squared = 0;
       num_left_small_z = 0;
     }
+    std::vector<int> vect(num_splits, 0);
+
+    for (size_t i = 0; i < 3; ++i) {
+      vect[i] = 1;
+    }
+
+    //std::mt19937 generator;
+    //generator.seed(std::time(0));
+
+    std::random_device rd;
+    std::mt19937 e{rd()};
+    std::shuffle(vect.begin(), vect.end(), e);
 
     for (size_t i = 0; i < num_splits; ++i) {
       // not necessary to evaluate sending right when splitting on NaN.
@@ -233,6 +252,10 @@ void InstrumentalSplittingRule::find_best_split_value(const Data& data,
       sum_left += sums[i];
       sum_left_z += sums_z[i];
       sum_left_z_squared += sums_z_squared[i];
+
+      if (vect[i]==0){
+        continue;
+      }
 
       // Skip this split if the left child does not contain enough
       // z values below and above the parent's mean.
