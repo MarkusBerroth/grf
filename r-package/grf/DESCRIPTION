@@ -1,4 +1,4 @@
-Package: grfextra
+Package: grf
 Title: Generalized Random Forests
 Version: 1.2.0
 Authors@R: c(
